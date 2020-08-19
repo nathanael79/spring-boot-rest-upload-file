@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,5 +58,14 @@ public class FileController {
                 .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\""+resource.getFilename()+"\"")
                 .body(resource);
 
+    }
+
+    @DeleteMapping("/deleteFile/{filename:.+}")
+    public ResponseEntity deleteFile(@PathVariable String filename){
+        Boolean deleteFile = fileStorageService.deleteImage(filename);
+        if(deleteFile){
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

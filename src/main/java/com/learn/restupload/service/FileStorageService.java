@@ -62,6 +62,16 @@ public class FileStorageService {
             throw new MyFileNotFoundException("File not found " + filename, e);
         }
     }
+
+    public Boolean deleteImage(String filename){
+        try{
+            File file = new File(String.valueOf(this.fileStorageLocation.resolve(filename).normalize()));
+            file.delete();
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
 }
 
 
